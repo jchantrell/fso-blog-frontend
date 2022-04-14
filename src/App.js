@@ -11,6 +11,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -26,6 +27,18 @@ const App = () => {
       setUser(user)
     }
   }, [])
+
+  const Notification = ({message}) => {
+    if (message === null){
+      return null
+    }
+
+    return (
+      <div className='notification'>
+        {message}
+      </div>
+    )
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -43,11 +56,14 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      console.log(user)
-    } catch (exception) {
-      console.log(exception)
+      setNotification(`Logged in as ${user.name}`)
       setTimeout(() => {
-        
+        setNotification(null)
+      }, 5000)
+    } catch (error) {
+      setNotification('Login failed')
+      setTimeout(() => {
+        setNotification(null)
       }, 5000)
     }
   }
@@ -55,6 +71,10 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('user')
     setUser(null)
+    setNotification(`Logged out`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   const loginForm = () => (
@@ -117,6 +137,7 @@ const App = () => {
       url: url,
     }
 
+
     blogService
       .create(blog)
       .then(returnedBlog => {
@@ -124,13 +145,24 @@ const App = () => {
         setTitle('')
         setAuthor('')
         setUrl('')
+        setNotification(`Added ${blog.title} by ${blog.author}`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       })
-  }
+      .catch(error => {
+        setNotification(`Failed to add blog`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+      })
+    }
 
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={notification} />
         {loginForm()}
       </div>
       
@@ -142,6 +174,7 @@ const App = () => {
       <h2>blogs</h2>
       <div>
         <p>welcome back {user.name}  <button onClick={() => handleLogout()}>logout</button></p>
+        <Notification message={notification} />
         {blogForm()}
         {displayBlogs()}
       </div>
