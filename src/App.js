@@ -7,6 +7,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -19,6 +22,7 @@ const App = () => {
     const loggedInUser = window.localStorage.getItem('user')
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser)
+      blogService.setToken(user.token)
       setUser(user)
     }
   }, [])
@@ -35,6 +39,7 @@ const App = () => {
         'user', JSON.stringify(user)
       ) 
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -84,6 +89,44 @@ const App = () => {
     )
   }
 
+  const blogForm = () => {
+    return (
+      <div>
+        <h2>create new</h2>
+        <form onSubmit={addBlog}>
+          <div>title:
+            <input type='text' value={title} name='Title' onChange={({ target }) => setTitle(target.value)} />
+          </div>
+          <div>author:
+            <input type='text' value={author} name='Author' onChange={({ target }) => setAuthor(target.value)} />
+          </div>
+          <div>url:
+            <input type='text' value={url} name='URL' onChange={({ target }) => setUrl(target.value)} />
+          </div>
+          <button type='submit'>create</button>
+        </form>
+      </div>
+    )
+  }
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    const blog = {
+      title: title,
+      author: author,
+      url: url,
+    }
+
+    blogService
+      .create(blog)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+      })
+  }
+
   if (user === null) {
     return (
       <div>
@@ -99,6 +142,7 @@ const App = () => {
       <h2>blogs</h2>
       <div>
         <p>welcome back {user.name}  <button onClick={() => handleLogout()}>logout</button></p>
+        {blogForm()}
         {displayBlogs()}
       </div>
     </div>
