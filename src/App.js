@@ -49,7 +49,6 @@ const App = () => {
       setUsername('')
       setPassword('')
       setNotification(`Logged in as ${user.username}`)
-      console.log(user)
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -89,7 +88,6 @@ const App = () => {
   }
 
   const updateBlog = (blog) => {
-    console.log(blog.id)
     blogService
       .update(blog)
       .then(returnedBlog => {
@@ -104,6 +102,29 @@ const App = () => {
           setNotification(null)
         }, 5000)
       })
+  }
+
+  const deleteBlog = (blog) => { 
+    blogService
+      .remove(blog)
+      .then(returnedBlog => {
+        handleRemoveBlog(blog)
+        setNotification(`Removed ${blog.title} by ${blog.author}`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setNotification(`Failed to delete blog`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+      })
+  }
+
+  const handleRemoveBlog = (blog) => {
+    const id = blog.id
+    setBlogs(blogs.filter(item => item.id !== id))
   }
 
   if (user === null) {
@@ -130,11 +151,18 @@ const App = () => {
       <h2>blogs</h2>
       <div>
         <p>welcome back {user.username}  <button onClick={() => handleLogout()}>logout</button></p>
-        <Notification message={notification} />
-        <Togglable buttonLabel='new blog'>
-          <BlogForm createBlog={addBlog}/>
+        <Notification 
+        message={notification} />
+        <Togglable 
+        buttonLabel='new blog'>
+          <BlogForm 
+          createBlog={addBlog}/>
         </Togglable>
-        <Blogs blogs={blogs} updateLikes={updateBlog}/>
+        <Blogs 
+        user={user}
+        blogs={blogs} 
+        updateLikes={updateBlog} 
+        deleteBlog={deleteBlog}/>
       </div>
     </div>
   )
