@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 
-import Blog from './components/Blog'
+import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
@@ -12,17 +13,8 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState('')
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('user')
@@ -33,17 +25,11 @@ const App = () => {
     }
   }, [])
 
-  const Notification = ({message}) => {
-    if (message === null){
-      return null
-    }
-
-    return (
-      <div className='notification'>
-        {message}
-      </div>
-    )
-  }
+  useEffect(() => {
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )  
+  }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -83,31 +69,11 @@ const App = () => {
     }, 5000)
   }
 
-
-  const Blogs = () => {
-    return (
-      <div>
-      {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
-      </div>
-    )
-  }
-
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blog = {
-      title: title,
-      author: author,
-      url: url,
-    }
-
-
+  const addBlog = (blog) => {
     blogService
       .create(blog)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
         setNotification(`Added ${blog.title} by ${blog.author}`)
         setTimeout(() => {
           setNotification(null)
@@ -119,7 +85,7 @@ const App = () => {
           setNotification(null)
         }, 5000)
       })
-    }
+  }
 
   if (user === null) {
     return (
@@ -147,16 +113,9 @@ const App = () => {
         <p>welcome back {user.username}  <button onClick={() => handleLogout()}>logout</button></p>
         <Notification message={notification} />
         <Togglable buttonLabel='new blog'>
-          <BlogForm 
-          handleSubmit={addBlog}
-          handleTitleChange={({ target }) => setTitle(target.value)}
-          handleAuthorChange={({ target }) => setAuthor(target.value)}
-          handleUrlChange={({ target }) => setUrl(target.value)}
-          title={title}
-          author={author}
-          url={url}/>
+          <BlogForm createBlog={addBlog}/>
         </Togglable>
-        <Blogs />
+        <Blogs blogs={blogs}/>
       </div>
     </div>
   )
