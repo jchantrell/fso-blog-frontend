@@ -1,0 +1,10 @@
+body {
+    background: slategray;
+    color: black;
+}
+
+button {
+    background: darkslategrey;
+    color: white;
+    border: none;
+}
