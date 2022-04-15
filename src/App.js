@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import Blogs from './components/Blogs'
+import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
@@ -87,6 +88,24 @@ const App = () => {
       })
   }
 
+  const updateBlog = (blog) => {
+    console.log(blog.id)
+    blogService
+      .update(blog)
+      .then(returnedBlog => {
+        setNotification(`Liked ${blog.title} by ${blog.author}`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setNotification(`Failed to like blog`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+      })
+  }
+
   if (user === null) {
     return (
       <div>
@@ -115,7 +134,7 @@ const App = () => {
         <Togglable buttonLabel='new blog'>
           <BlogForm createBlog={addBlog}/>
         </Togglable>
-        <Blogs blogs={blogs}/>
+        <Blogs blogs={blogs} updateLikes={updateBlog}/>
       </div>
     </div>
   )
