@@ -47,14 +47,17 @@ const Blog = ({ blog, user, updateLikes, deleteBlog }) => {
     return (
 
         <div>
-            <div style={hiddenDetails}>
+            <div className='detailsHidden' style={hiddenDetails}>
                 <div style={blogStyle}>
-                    {blog.title} by {blog.author} <button onClick={() => setBlogDetails(true)}>view</button>
+                    {blog.title} by {blog.author}
+                    <button onClick={() => setBlogDetails(true)}>view</button>
                 </div>
             </div>
-            <div style={shownDetails}>
+            <div className='detailsShown' style={shownDetails}>
                 <div style={blogStyle}>
-                    <div>{blog.title} by {blog.author} <button onClick={() => setBlogDetails(false)}>hide</button></div>
+                    <div>{blog.title} by {blog.author}
+                        <button onClick={() => setBlogDetails(false)}>hide</button>
+                    </div>
                     <div>url: {blog.url}</div>
                     <div>likes: {blog.likes}
                         <button onClick={addLike}>like</button>
