@@ -20,4 +20,23 @@ describe('Blog app', function () {
         cy.contains('username')
         cy.contains('password')
     })
+
+    it('fails at login with invalid credentials', function() {
+        cy.contains('login').click()
+        cy.get('#username-input').type('baduser')
+        cy.get('#password-input').type('baduser')
+        cy.get('#login-button').click()
+
+        cy.contains('Login failed')
+
+    })
+
+    it('succeeds at login with valid credentials', function() {
+        cy.contains('login').click()
+        cy.get('#username-input').type('sada')
+        cy.get('#password-input').type('!@#123')
+        cy.get('#login-button').click()
+
+        cy.contains('Logged in as sada')
+    })
 })
