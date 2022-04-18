@@ -121,8 +121,6 @@ const App = () => {
             })
     }
 
-    const dateString = new Date()
-    console.log(dateString.getTime().toString())
 
     const handleRemoveBlog = (blog) => {
         const id = blog.id
