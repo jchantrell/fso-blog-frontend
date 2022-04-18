@@ -18,8 +18,6 @@ const BlogForm = ({ createBlog }) => {
         setUrl(event.target.value)
     }
 
-    const dateString = new Date()
-    console.log(dateString.getTime().toString())
 
     const addBlog = (event) => {
         event.preventDefault()
@@ -30,7 +28,6 @@ const BlogForm = ({ createBlog }) => {
 
         })
 
-        console.log(dateString.getTime().toString())
 
         setTitle('')
         setAuthor('')
