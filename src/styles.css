@@ -1,16 +1,16 @@
 body {
-    background: slategray;
-    color: black;
+  background: slategray;
+  color: black;
 }
 
 button {
-    background: steelblue;
-    color: white;
-    border: none;
-    border-radius: 25px;
+  background: steelblue;
+  color: white;
+  border: none;
+  border-radius: 25px;
 }
 
 .notification {
-    font-size: 1.2em;
-    color: #FEFEFE;
+  font-size: 1.2em;
+  color: #fefefe;
 }
