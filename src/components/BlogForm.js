@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
 import { createBlog } from '../reducers/blogReducer'
 
@@ -25,7 +25,7 @@ const BlogForm = () => {
   const addBlog = async (event) => {
     event.preventDefault()
 
-    const newBlog = {
+    const blog = {
       title: title,
       author: author,
       url: url,
@@ -35,12 +35,11 @@ const BlogForm = () => {
     setAuthor('')
     setUrl('')
     dispatch(displayNotification(`Added ${title} by ${author}`, 5))
-    dispatch(createBlog(newBlog))
+    dispatch(createBlog(blog))
   }
 
   return (
     <div>
-      <h2>create new</h2>
       <form onSubmit={addBlog}>
         <div>
           title:

@@ -27,7 +27,7 @@ module.exports = {
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 'off',
     'prettier/prettier': ['error'],
-    'no-unused-vars': '1',
+    'no-unused-vars': 1,
   },
   settings: {
     react: {
