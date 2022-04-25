@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
 import { login } from '../reducers/loginReducer'
 import { useNavigate, Link } from 'react-router-dom'
+import Notification from './Notification'
 
 const LoginForm = () => {
   const navigate = useNavigate()

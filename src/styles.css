@@ -1,16 +1,5 @@
 body {
-  background: slategray;
-  color: black;
-}
-
-button {
-  background: steelblue;
-  color: white;
-  border: none;
-  border-radius: 25px;
-}
-
-.notification {
-  font-size: 1.2em;
-  color: #fefefe;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
 }

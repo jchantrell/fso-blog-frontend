@@ -23,6 +23,7 @@ const notificationSlice = createSlice({
 export const displayNotification = (content, time) => {
   return async (dispatch) => {
     dispatch(setNotification(content))
+
     setTimeout(() => {
       dispatch(clearNotification())
     }, time * 1000)

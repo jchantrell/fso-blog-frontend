@@ -1,42 +1,36 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+
+import { Table, TableBody, TableCell, TableRow } from '@mui/material'
 
 const BlogList = () => {
   const blogs = useSelector((state) => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => (b.likes > a.likes ? 1 : -1))
 
   return (
-    <div>
-      {sortedBlogs.map((blog) => (
-        <Blog blog={blog} key={blog.id} />
-      ))}
-    </div>
+    <Table>
+      <TableBody>
+        {sortedBlogs.map((blog) => (
+          <Blog blog={blog} key={blog.id} />
+        ))}
+      </TableBody>
+    </Table>
   )
 }
 
 const Blog = ({ blog }) => {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.login)
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderColor: 'black',
-    borderWidth: 1,
-    marginBottom: 5,
-  }
-
   return (
-    <div className="blog">
-      <div id={blog.id}>
-        <div style={blogStyle}>
-          <Link to={`/blogs/${blog.id}`}>
-            {blog.title} - {blog.author}
-          </Link>
-        </div>
-      </div>
-    </div>
+    <TableRow key={blog.id}>
+      <TableCell>
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title} - {blog.author}
+        </Link>
+      </TableCell>
+      <TableCell>{blog.likes} Likes</TableCell>
+      <TableCell>
+        <Link to={`/users/${blog.user.id}`}>{blog.user.username}</Link>
+      </TableCell>
+    </TableRow>
   )
 }
 
