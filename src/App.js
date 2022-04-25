@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import AccountForm from './components/AccountForm'
 import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
 import BlogInfo from './components/BlogInfo'
@@ -43,22 +44,11 @@ const App = () => {
     dispatch(displayNotification('Logged out'))
   }
 
-  const LoginPage = () => {
-    return (
-      <div>
-        <Notification />
-        <Togglable buttonLabel="Login">
-          <LoginForm />
-        </Togglable>
-      </div>
-    )
-  }
-
   const Home = () => {
     return (
       <div>
         <Notification />
-        <Togglable buttonLabel="Create">
+        <Togglable buttonLabel="Post">
           <BlogForm />
         </Togglable>
         <BlogList />
@@ -71,17 +61,6 @@ const App = () => {
       padding: '3px',
       backgroundColor: 'lightgrey',
     }
-
-    if (user === null) {
-      return (
-        <p>
-          Welcome back {user.username}
-          <button onClick={() => handleLogout()}>logout</button>
-        </p>
-      )
-    }
-
-    console.log(user)
 
     return (
       <div style={style}>
@@ -97,11 +76,30 @@ const App = () => {
     )
   }
 
+  const LandingPage = () => {
+    return (
+      <div>
+        <h3>Welcome to our app</h3>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+        <Link to="/signup">
+          <button>New User</button>
+        </Link>
+      </div>
+    )
+  }
+
   if (user === null) {
     return (
       <Router>
         <h2>Blogger App</h2>
-        <LoginPage />
+        <Notification />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<AccountForm />} />
+          <Route path="/login" element={<LoginForm />} />
+        </Routes>
       </Router>
     )
   }
@@ -113,6 +111,7 @@ const App = () => {
         <h2>Blogger App</h2>
 
         <Routes>
+          <Route path="/signup" element={<AccountForm />} />
           <Route path="/users/:id" element={<UserInfo />} />
           <Route path="/blogs/:id" element={<BlogInfo />} />
           <Route path="/" element={<Home />} />

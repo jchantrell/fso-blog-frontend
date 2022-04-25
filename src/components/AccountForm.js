@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
-import { login } from '../reducers/loginReducer'
+import { create } from '../reducers/userReducer'
 import { useNavigate, Link } from 'react-router-dom'
 
-const LoginForm = () => {
-  const navigate = useNavigate()
+const AccountForm = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -19,24 +19,23 @@ const LoginForm = () => {
     setPassword(event.target.value)
   }
 
-  const handleLogin = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      dispatch(login({ username, password }))
-      dispatch(displayNotification(`Logged in as ${username}`, 5))
+      dispatch(create({ username, password }))
+    } catch (error) {
+      dispatch(displayNotification('Account creation failed', 5))
+    } finally {
       setUsername('')
       setPassword('')
-    } catch (error) {
-      dispatch(displayNotification('Logged failed', 5))
-    } finally {
-      navigate('/')
+      navigate('/login')
     }
   }
 
   return (
     <div>
-      <h3>Welcome back</h3>
-      <form onSubmit={handleLogin}>
+      <h3>Account creation is free</h3>
+      <form onSubmit={handleSubmit}>
         <div>
           Username
           <input
@@ -55,14 +54,13 @@ const LoginForm = () => {
             onChange={handlePasswordChange}
           />
         </div>
-        <button id="login-button" type="submit">
-          Login
+        <button id="signup" type="submit">
+          Create
         </button>
-
         <div>
-          Don&apos;t have an account yet? It&apos;s free
-          <Link to="/signup">
-            <button id="signup-button">Create</button>
+          Already have an account?
+          <Link to="/login">
+            <button id="login-button">Login</button>
           </Link>
         </div>
       </form>
@@ -70,4 +68,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default AccountForm

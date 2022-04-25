@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import blogs from '../services/blogs'
 import blogsService from '../services/blogs'
 
 const initialState = []
@@ -28,11 +27,6 @@ const blogSlice = createSlice({
     deleteBlog: {
       reducer: (state, action) => {
         return state.filter((blog) => blog.id !== action.payload.id)
-      },
-    },
-    appendComment: {
-      reducer: (state, action) => {
-        console.log(state, action)
       },
     },
   },
@@ -73,11 +67,17 @@ export const like = (blog) => {
   }
 }
 
-export const createComment = (comment) => {
-  console.log(comment)
+export const createComment = (comment, blog) => {
   return async (dispatch) => {
-    const newComment = await blogsService.createComment(comment)
-    dispatch(appendComment(newComment))
+    const newComment = await blogsService.createComment(comment, blog)
+
+    const forAppend = {
+      content: newComment.content,
+      likes: newComment.likes,
+      id: newComment.blogId,
+    }
+
+    dispatch(appendComment(forAppend))
   }
 }
 

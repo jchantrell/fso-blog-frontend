@@ -2,12 +2,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { like, createComment } from '../reducers/blogReducer'
+
 import { displayNotification } from '../reducers/notificationReducer'
 import DeleteButton from './BlogDeleteButton'
 
 const BlogInfo = () => {
   const dispatch = useDispatch()
-  const [comment, setComment] = useState('')
+  const [content, setContent] = useState('')
   const user = useSelector((state) => state.login)
   const id = useParams().id
   const blogs = useSelector((state) => state.blogs)
@@ -22,17 +23,19 @@ const BlogInfo = () => {
   const addComment = async (event) => {
     event.preventDefault()
 
-    const blog = {
-      comment: comment,
+    const comment = {
+      content: content,
+      likes: 0,
+      blogId: blog.id,
     }
 
-    setComment('')
+    setContent('')
     dispatch(displayNotification('Added comment', 5))
-    dispatch(createComment(blog))
+    dispatch(createComment(comment, blog))
   }
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value)
+  const handleContentChange = (event) => {
+    setContent(event.target.value)
   }
 
   return (
@@ -62,12 +65,15 @@ const BlogInfo = () => {
       <form onSubmit={addComment}>
         <input
           type="text"
-          value={comment}
-          name="Comment"
-          onChange={handleCommentChange}
+          value={content}
+          name="Content"
+          onChange={handleContentChange}
         />
         <button type="submit">Post</button>
       </form>
+      {blog.comments.map((comment) => (
+        <div key={comment.id}>{comment.content}</div>
+      ))}
     </div>
   )
 }

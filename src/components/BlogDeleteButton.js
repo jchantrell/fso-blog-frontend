@@ -3,7 +3,6 @@ import { removeBlog } from '../reducers/blogReducer'
 import { displayNotification } from '../reducers/notificationReducer'
 
 const DeleteButton = ({ blog }) => {
-  console.log(blog)
   const dispatch = useDispatch()
   return (
     <button

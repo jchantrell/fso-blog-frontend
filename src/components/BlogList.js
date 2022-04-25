@@ -1,8 +1,4 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { like } from '../reducers/blogReducer'
-import DeleteButton from './BlogDeleteButton'
-
 import { Link } from 'react-router-dom'
 
 const BlogList = () => {
