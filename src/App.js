@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { Container, ThemeProvider, createTheme } from '@mui/material'
+
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -47,72 +48,46 @@ const App = () => {
     }
   }, [])
 
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-  })
-
-  const Home = () => {
-    return (
-      <div>
-        <BlogList />
-      </div>
-    )
-  }
-
-  if (user === null) {
+  const NoUser = () => {
     return (
       <>
-        <ThemeProvider theme={darkTheme}>
+        <Router>
+          <Nav />
           <Notification />
-          <Router>
-            <Nav />
-            <Container>
-              <Routes>
-                <Route path="/" element={<Home theme={darkTheme} />} />
-                <Route
-                  path="/signup"
-                  element={<AccountForm theme={darkTheme} />}
-                />
-                <Route
-                  path="/login"
-                  element={<LoginForm theme={darkTheme} />}
-                />
-              </Routes>
-            </Container>
-          </Router>
-        </ThemeProvider>
+          <Container>
+            <Routes>
+              <Route path="/" element={<BlogList />} />
+              <Route path="/signup" element={<AccountForm />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/users/:id" element={<UserInfo />} />
+              <Route path="/blogs/:id" element={<BlogInfo />} />
+              <Route path="/users" element={<UserList />} />
+            </Routes>
+          </Container>
+        </Router>
       </>
     )
   }
 
+  if (user === null) {
+    return <NoUser />
+  }
+
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
+      <Router>
+        <Nav />
         <Notification />
-        <Router>
-          <Nav />
-          <Container>
-            <Routes>
-              <Route
-                path="/signup"
-                element={<AccountForm theme={darkTheme} />}
-              />
-              <Route
-                path="/users/:id"
-                element={<UserInfo theme={darkTheme} />}
-              />
-              <Route
-                path="/blogs/:id"
-                element={<BlogInfo theme={darkTheme} />}
-              />
-              <Route path="/" element={<Home theme={darkTheme} />} />
-              <Route path="/users" element={<UserList theme={darkTheme} />} />
-            </Routes>
-          </Container>
-        </Router>
-      </ThemeProvider>
+        <Container>
+          <Routes>
+            <Route path="/" element={<BlogList />} />
+            <Route path="/signup" element={<AccountForm />} />
+            <Route path="/users/:id" element={<UserInfo />} />
+            <Route path="/blogs/:id" element={<BlogInfo />} />
+            <Route path="/users" element={<UserList />} />
+          </Routes>
+        </Container>
+      </Router>
     </>
   )
 }

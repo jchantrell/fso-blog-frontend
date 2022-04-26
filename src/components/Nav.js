@@ -80,8 +80,9 @@ const Nav = () => {
               <Link style={subStyle} to={'/'}>
                 <MenuItem onClick={handleClose}>Home</MenuItem>
               </Link>
-              <Link style={subStyle} to={'/login'}>
-                <MenuItem onClick={handleClose}>Login</MenuItem>
+
+              <Link style={subStyle} to={'/users'}>
+                <MenuItem onClick={handleClose}>Users</MenuItem>
               </Link>
             </Menu>
 
@@ -89,11 +90,8 @@ const Nav = () => {
               App
             </Typography>
 
-            <Link style={mainStyle} to="/">
-              <Button color="inherit">Discover</Button>
-            </Link>
-            <Link style={mainStyle} to="/users">
-              <Button color="inherit">Users</Button>
+            <Link style={mainStyle} to="/login">
+              <Button color="inherit">Login</Button>
             </Link>
           </Toolbar>
         </AppBar>
@@ -127,8 +125,12 @@ const Nav = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <Link style={subStyle} to={`/users/${user.id}`}>
-              <MenuItem onClick={handleClose}>My Blogs</MenuItem>
+            <Link style={subStyle} to={'/'}>
+              <MenuItem onClick={handleClose}>Home</MenuItem>
+            </Link>
+
+            <Link style={subStyle} to={'/users'}>
+              <MenuItem onClick={handleClose}>Users</MenuItem>
             </Link>
 
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -138,11 +140,8 @@ const Nav = () => {
             App
           </Typography>
 
-          <Link style={mainStyle} to="/">
-            <Button color="inherit">Discover</Button>
-          </Link>
-          <Link style={mainStyle} to="/users">
-            <Button color="inherit">Users</Button>
+          <Link style={mainStyle} to={`/users/${user.id}`}>
+            <Button color="inherit">Profile</Button>
           </Link>
         </Toolbar>
       </AppBar>

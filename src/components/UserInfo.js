@@ -11,10 +11,28 @@ const UserInfo = () => {
   }
   const user = users.find((u) => u.id === id)
 
-  const blogs = user.blogs
+  const blogs = [...user.blogs]
 
-  console.log(currentUser)
-  if (user === currentUser) {
+  console.log(user)
+
+  if (!currentUser) {
+    return (
+      <div>
+        <h2>User: {user.username}</h2>
+        <div>{`List of ${user.username}'s Blogs`}</div>
+        <ul>
+          {blogs.map((blog) => (
+            <li key={blog.id}>
+              <Link to={`/blogs/${blog.id}`}>
+                {blog.title} by {blog.author}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  if (user.username === currentUser.username) {
     return (
       <div>
         <h2>User: {user.username}</h2>
@@ -22,7 +40,9 @@ const UserInfo = () => {
         <ul>
           {blogs.map((blog) => (
             <li key={blog.id}>
-              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              <Link to={`/blogs/${blog.id}`}>
+                {blog.title} by {blog.author}
+              </Link>
             </li>
           ))}
         </ul>
@@ -37,7 +57,9 @@ const UserInfo = () => {
       <ul>
         {blogs.map((blog) => (
           <li key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.title} by {blog.author}
+            </Link>
           </li>
         ))}
       </ul>

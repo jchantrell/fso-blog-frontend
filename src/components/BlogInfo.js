@@ -38,6 +38,32 @@ const BlogInfo = () => {
     setContent(event.target.value)
   }
 
+  if (!user) {
+    return (
+      <div>
+        <h2>
+          {blog.title} by {blog.author}
+        </h2>
+        <div>{blog.url}</div>
+        <div>
+          Likes: {blog.likes}{' '}
+          <button
+            className="likeBlogButton"
+            onClick={() => {
+              dispatch(like(blog))
+            }}
+          >
+            Like
+          </button>
+        </div>
+        Comments
+        {blog.comments.map((comment) => (
+          <div key={comment.id}>{comment.content}</div>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div>
       <h2>
@@ -61,7 +87,7 @@ const BlogInfo = () => {
           <DeleteButton blog={blog} />
         ) : null}
       </div>
-      <h2>comments</h2>
+      Comments
       <form onSubmit={addComment}>
         <input
           type="text"
