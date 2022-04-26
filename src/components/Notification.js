@@ -15,6 +15,9 @@ const Notification = () => {
 
   // true false
 
+  const handleClick = () => {
+    setOpen(true)
+  }
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -24,6 +27,7 @@ const Notification = () => {
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
+      <Button onClick={handleClick}>Open simple snackbar</Button>
       <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
         <Alert onClose={handleClose} sx={{ width: '100%' }}>
           {notification}

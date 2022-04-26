@@ -69,27 +69,31 @@ const App = () => {
     )
   }
 
+  const LoggedInUser = () => {
+    return (
+      <>
+        <Router>
+          <Nav />
+          <Notification />
+          <Container>
+            <Routes>
+              <Route path="/" element={<BlogList />} />
+              <Route path="/signup" element={<AccountForm />} />
+              <Route path="/users/:id" element={<UserInfo />} />
+              <Route path="/blogs/:id" element={<BlogInfo />} />
+              <Route path="/users" element={<UserList />} />
+            </Routes>
+          </Container>
+        </Router>
+      </>
+    )
+  }
+
   if (user === null) {
     return <NoUser />
   }
 
-  return (
-    <>
-      <Router>
-        <Nav />
-        <Notification />
-        <Container>
-          <Routes>
-            <Route path="/" element={<BlogList />} />
-            <Route path="/signup" element={<AccountForm />} />
-            <Route path="/users/:id" element={<UserInfo />} />
-            <Route path="/blogs/:id" element={<BlogInfo />} />
-            <Route path="/users" element={<UserList />} />
-          </Routes>
-        </Container>
-      </Router>
-    </>
-  )
+  return <LoggedInUser />
 }
 
 export default App
