@@ -29,6 +29,7 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import { setUser } from './reducers/loginReducer'
 import { displayNotification } from './reducers/notificationReducer'
+import BlogFormModal from './components/BlogFormModal'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -73,6 +74,7 @@ const App = () => {
     return (
       <>
         <Router>
+          <BlogFormModal />
           <Nav />
           <Notification />
           <Container>

@@ -6,10 +6,8 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,6 +15,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { setUser } from '../reducers/loginReducer'
 import { displayNotification } from '../reducers/notificationReducer'
+import { showBlogForm } from '../reducers/showBlogFormReducer'
 
 const Nav = () => {
   const dispatch = useDispatch()
@@ -48,6 +47,10 @@ const Nav = () => {
     dispatch(setUser(null))
     dispatch(displayNotification('Logged out'))
     navigate('/')
+  }
+
+  const newBlog = () => {
+    dispatch(showBlogForm(true))
   }
 
   if (!user) {
@@ -140,8 +143,14 @@ const Nav = () => {
             App
           </Typography>
 
+          <Button onClick={newBlog} color="inherit">
+            New Blog
+          </Button>
+
           <Link style={mainStyle} to={`/users/${user.id}`}>
-            <Button color="inherit">Profile</Button>
+            <IconButton sx={{ p: 0 }}>
+              <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>
+            </IconButton>
           </Link>
         </Toolbar>
       </AppBar>
