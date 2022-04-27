@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import AccountForm from './components/AccountForm'
 import BlogList from './components/BlogList'
+
 import BlogForm from './components/BlogForm'
 import BlogInfo from './components/BlogInfo'
 import LoginForm from './components/LoginForm'
@@ -28,12 +29,17 @@ import blogService from './services/blogs'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import { setUser } from './reducers/loginReducer'
-import { displayNotification } from './reducers/notificationReducer'
-import BlogFormModal from './components/BlogFormModal'
+import CssBaseline from '@mui/material/CssBaseline'
 
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.login)
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  })
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -53,6 +59,7 @@ const App = () => {
     return (
       <>
         <Router>
+          <CssBaseline />
           <Nav />
           <Notification />
           <Container>
@@ -74,7 +81,8 @@ const App = () => {
     return (
       <>
         <Router>
-          <BlogFormModal />
+          <CssBaseline />
+          <BlogForm />
           <Nav />
           <Notification />
           <Container>
@@ -92,10 +100,18 @@ const App = () => {
   }
 
   if (user === null) {
-    return <NoUser />
+    return (
+      <ThemeProvider theme={darkTheme}>
+        <NoUser />
+      </ThemeProvider>
+    )
   }
 
-  return <LoggedInUser />
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <LoggedInUser />
+    </ThemeProvider>
+  )
 }
 
 export default App

@@ -92,7 +92,9 @@ const Nav = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               App
             </Typography>
-
+            <Link style={mainStyle} to="/signup">
+              <Button color="inherit">New User</Button>
+            </Link>
             <Link style={mainStyle} to="/login">
               <Button color="inherit">Login</Button>
             </Link>
